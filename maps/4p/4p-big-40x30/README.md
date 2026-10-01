@@ -1,7 +1,5 @@
 # 4P BIG 40x30
 
-![4P BIG 40x30](v1.png)
-
 4 players · 40x30
 
 By **ARXII-13**

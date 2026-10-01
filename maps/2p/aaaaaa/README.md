@@ -1,7 +1,5 @@
 # aaaaaa
 
-![aaaaaa](v1.png)
-
 2 players · 10x10
 
 By **ARXII-13**

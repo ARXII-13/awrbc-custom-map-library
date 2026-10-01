@@ -1,7 +1,5 @@
 # SZ 64x64
 
-![SZ 64x64](v1.png)
-
 4 players · 64x64 · predeployed
 
 By **ARXII-13**

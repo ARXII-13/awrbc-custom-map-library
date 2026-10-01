@@ -1,7 +1,5 @@
 # CANNON TEAM
 
-![CANNON TEAM](v1.png)
-
 2 players · 14x10 · predeployed · structures
 
 By **ARXII-13**

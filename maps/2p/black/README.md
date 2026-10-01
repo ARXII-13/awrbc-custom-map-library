@@ -1,7 +1,5 @@
 # BLACK
 
-![BLACK](v1.png)
-
 2 players · 30x20 · predeployed · navy · structures
 
 By **ARXII-13**
