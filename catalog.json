@@ -1,5 +1,5 @@
 {
- "count": 8,
+ "count": 9,
  "generated": "2026-09-30",
  "maps": {
   "maps/2p/aaaaaa": {
@@ -122,6 +122,27 @@
      "players": 4,
      "predeployed": true,
      "rows": 20,
+     "structures": false,
+     "tags": [],
+     "version": 1
+    }
+   ]
+  },
+  "maps/4p/renew": {
+   "author": "debbie",
+   "category": "4p",
+   "name": "renew",
+   "slug": "renew",
+   "versions": [
+    {
+     "added": "2026-09-30",
+     "cols": 31,
+     "fog": false,
+     "hash": "bfff9b8fd4609da4",
+     "navy": false,
+     "players": 4,
+     "predeployed": false,
+     "rows": 21,
      "structures": false,
      "tags": [],
      "version": 1
