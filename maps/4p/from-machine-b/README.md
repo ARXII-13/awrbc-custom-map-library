@@ -1,5 +1,7 @@
 # FROM MACHINE B
 
+![FROM MACHINE B](v1.png)
+
 4 players · 30x20 · predeployed
 
 By **ARXII-13**
