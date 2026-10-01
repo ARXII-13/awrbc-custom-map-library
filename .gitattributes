@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+# Not optional. With `text=auto` alone git guesses per file, and a PNG it
+# guesses wrong about gets line-ending conversion applied to its compressed
+# data - which corrupts it silently, on checkout, on one platform.
+*.png binary
+
+# Map files arrive from every platform. Pinning them keeps a pull request's
+# diff about the map rather than about line endings.
+*.json text eol=lf
+*.md   text eol=lf

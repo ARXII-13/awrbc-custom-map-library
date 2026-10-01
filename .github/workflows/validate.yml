@@ -1,0 +1,53 @@
+name: validate
+
+# Runs on every pull request, and again on main so a bad merge is visible even
+# if it somehow got through review.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The submission rules need to know what this pull request changed,
+          # which needs the base branch present to diff against.
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # The checks live in the manager package, not in this workflow: they are
+      # the same rules `awrbc publish` applies, they are covered by that
+      # project's tests, and a contributor can run exactly what CI runs.
+      #
+      # NOTE: this installs from a public source on purpose. A private source
+      # would need a secret, and GitHub does not give secrets to pull requests
+      # from forks - so validation would fail for precisely the contributors it
+      # exists to check.
+      - name: Install the tool
+        run: pip install "awrbc-custom-map-manager @ git+https://github.com/ARXII-13/awrbc-custom-map-manager@main"
+
+      - name: What did this change
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base="${{ github.event.pull_request.base.sha }}"
+            files=$(git diff --name-only "$base" "${{ github.sha }}")
+          else
+            files=""
+          fi
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$files" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "Changed files:"; echo "$files"
+
+      - name: Check every map
+        run: awrbc verify --library . --changed ${{ steps.changed.outputs.files }}
