@@ -11,10 +11,13 @@ assets, no code from the game, nothing extracted from a cartridge.
 ## Getting a map
 
 ```bash
-awrbc search "4p fog"      # find one
-awrbc show daibi           # look at it
-awrbc import daibi         # put it in your save
+awrbc search 4p            # find one
+awrbc show renew           # look at it
+awrbc import renew         # put it in your save
 ```
+
+`awrbc search` with no words lists everything, which is currently a short
+read.
 
 Or browse `maps/` — every map folder has a README with a picture of it.
 
