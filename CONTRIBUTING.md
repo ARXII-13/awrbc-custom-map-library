@@ -8,8 +8,10 @@
    puts the files where they belong and prints the git commands to run.
 3. Open a pull request.
 
-If you don't use git, you don't have to — that's what the submission page is
-for. These instructions are for people who prefer the command line.
+If you don't use git, you don't have to. Open a map in the editor, sign in
+with Discord and press Submit: it uploads the map and a bot opens the pull
+request for you. These instructions are for people who prefer the command
+line.
 
 ## What you are agreeing to
 
