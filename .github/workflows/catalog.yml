@@ -1,0 +1,74 @@
+name: publish the catalog
+
+# Builds the archive index and publishes it to Pages. Nothing is committed
+# back (decision #57).
+#
+# That is the point rather than a detail. The index is derived from every map
+# in the repository, so a committed copy is one file each submission has to
+# agree about - and a job that writes it back to main would need to bypass the
+# branch ruleset, which exists so that nothing reaches main without review.
+# Publishing it instead leaves main alone and needs no exemption.
+#
+# Enable Pages once in Settings -> Pages -> Source: GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+    paths: ['maps/**', '.github/workflows/catalog.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One at a time, and a newer push wins rather than queueing: the index is a
+# snapshot of main, so an older build finishing last would publish the past.
+concurrency:
+  group: catalog
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # The same package CI validates submissions with, from a public source
+      # for the same reason validate.yml gives: a private one would need a
+      # secret, and secrets are not given to pull requests from forks.
+      - name: Install the tool
+        run: pip install "awrbc-custom-map-manager @ git+https://github.com/ARXII-13/awrbc-custom-map-manager@main"
+
+      # --build-into writes the index somewhere else and touches nothing in
+      # the checkout, so this job has no reason to hold write access.
+      - name: Build the index
+        run: |
+          mkdir -p site
+          awrbc catalog --library . --build-into site
+          echo "--- what is being published ---"
+          ls -l site
+          python -c "import json; d=json.load(open('site/catalog.json')); print(len(d['maps']), 'maps')"
+
+      # A map that will not parse is reported by `awrbc catalog` and does not
+      # stop the build - one bad merge must not take the whole index offline.
+      # It fails the job afterwards so the breakage is visible, having already
+      # published an index of everything that was readable.
+      - name: Publish an index a client can reach
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

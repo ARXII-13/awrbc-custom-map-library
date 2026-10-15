@@ -32,6 +32,7 @@ matters because this repository is public and permanent.
 ```
 maps/4p/twin-rivers/
 ├── README.md     generated - the picture and the facts
+├── meta.json     when each version was uploaded
 ├── v1.json       the map
 ├── v1.png        a preview, drawn by the editor
 └── v2.json       a later revision by the same author
@@ -44,9 +45,16 @@ maps/4p/twin-rivers/
 - Each **`vN.json`** is one published version. Both stay downloadable; that is
   why versions are files and not git history.
 
+`meta.json` records when each version was submitted — the one thing a map file
+cannot say about itself, and the only part of the index below that is not
+recomputed from the maps.
+
 `catalog.json` is a generated index of everything, so a client can search
-without cloning. It and the folder READMEs are rebuilt by CI on merge — don't
-edit them by hand.
+without cloning. It is in the process of moving out of this repository: it is
+built from the map files on merge and will be published rather than committed,
+so that a submission never has to edit a file every other submission also
+edits. Until that lands it is still here. Either way it, and the folder
+READMEs, are generated — don't edit them by hand.
 
 ## Identity
 
@@ -61,5 +69,5 @@ knowing:
 ## Licence
 
 Maps are contributed under [CC BY 4.0](LICENSE): share and adapt freely, with
-credit to the author. Each map's author is in its folder README and in
-`catalog.json`.
+credit to the author. Each map's author is in its map file and in its
+folder README.
