@@ -49,12 +49,15 @@ maps/4p/twin-rivers/
 cannot say about itself, and the only part of the index below that is not
 recomputed from the maps.
 
-`catalog.json` is a generated index of everything, so a client can search
-without cloning. It is in the process of moving out of this repository: it is
-built from the map files on merge and will be published rather than committed,
-so that a submission never has to edit a file every other submission also
-edits. Until that lands it is still here. Either way it, and the folder
-READMEs, are generated — don't edit them by hand.
+There is no index file here. One is built from the map files on every merge
+and published at
+
+    https://arxii-13.github.io/awrbc-custom-map-library/catalog.json
+
+so a client can still search without cloning, and no submission has to edit a
+file every other submission also edits. Everything in it is recomputed from
+the maps, so it can be thrown away and rebuilt — which is why it is not worth
+committing. The folder READMEs are generated too; don't edit those by hand.
 
 ## Identity
 
