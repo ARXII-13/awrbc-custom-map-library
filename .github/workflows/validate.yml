@@ -49,5 +49,24 @@ jobs:
           echo "EOF" >> "$GITHUB_OUTPUT"
           echo "Changed files:"; echo "$files"
 
+      # The file list is newline-separated, so interpolating it straight into
+      # a run: block put every file after the first on its own line, where
+      # the shell ran it as a command. It went unnoticed because validation
+      # always failed first and `bash -e` aborted before reaching line two -
+      # so the bug only appeared the day a submission was about to pass.
+      #
+      # Through the environment and into an array: no re-splitting, and a
+      # path with a space in it would survive even though the slug rules do
+      # not allow one.
       - name: Check every map
-        run: awrbc verify --library . --changed ${{ steps.changed.outputs.files }}
+        env:
+          CHANGED: ${{ steps.changed.outputs.files }}
+        run: |
+          readarray -t FILES <<< "$CHANGED"
+          if [ "${#FILES[@]}" -eq 1 ] && [ -z "${FILES[0]}" ]; then
+            # A push to main, or a pull request that changed nothing under
+            # maps/. Check the whole archive rather than nothing at all.
+            awrbc verify --library .
+          else
+            awrbc verify --library . --changed "${FILES[@]}"
+          fi
