@@ -54,6 +54,12 @@ jobs:
           ls -l site
           python -c "import json; d=json.load(open('site/catalog.json')); print(len(d['maps']), 'maps')"
 
+      # The site is one data file, so its root answered 404 - honest, and
+      # still alarming to anyone who goes looking. A sentence saying what
+      # this URL is costs nothing.
+      - name: Write the landing page
+        run: python .github/workflows/landing.py site
+
       # A map that will not parse is reported by `awrbc catalog` and does not
       # stop the build - one bad merge must not take the whole index offline.
       # It fails the job afterwards so the breakage is visible, having already
